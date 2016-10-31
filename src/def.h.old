@@ -1,0 +1,39 @@
+#ifndef _DEF_H_
+#define _DEF_H_
+
+#define Type double 
+#define SIMDType doublev4
+#define THREADS 64 
+#define NUM_CG 4 
+
+//Do not change the sequence, hard define for convforward.S
+typedef struct ConvData_st{
+  Type* input; //0
+  Type* weight; //8
+  Type* output; //16
+  //   24,  28,  32,  36, 40,  44,  48, 52, 56 
+  int _Ni, _Ri, _Ci, _No, _K, _Ro, _Co, _B, _Costride;
+  Type* bias;
+  Type* output_diff;
+  Type* input_diff;
+  Type* weight_delta;
+  Type* bias_delta;
+}ConvData;
+
+typedef struct PadData_st{
+	Type* input;
+	Type* output;
+	int _B, _Ni, _Ri, _Ci, _Np;
+}PadData;
+
+typedef struct SoftmaxData_st{
+	Type* input;
+	Type* output;
+	Type* input_diff;
+	Type* output_diff;
+	int* label;
+	int _B, _Ni, _No;
+	Type  loss;
+}SoftmaxData;
+
+#endif
