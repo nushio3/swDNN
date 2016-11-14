@@ -1,14 +1,15 @@
-The repository contains test code for the paper -- swDNN: a Library for Efficient Deep Learning Applications on Sunway Supercomputer.
+#The repository contains test code for the paper -- swDNN: a Library for Efficient Deep Learning Applications on Sunway Supercomputer.
 
-2016.11.14 : support for *float* and *double* data formats
 
 swCNNv11~14 are unitest code for forward propagation with four different loop transformations.
 
 swCNNv21    are unitest code for backward propagation.
 
-./src         contains fully-connected layer, convolutional layer, activation functions and padding operations on 64 CPEs of SW26010 processors.
+./src         contains the fully-connected layer, the *convolutional layer*, the *activation functions* and the *padding operations* on 64 CPEs of SW26010 processors.
 
-./test        contains test code for a network.
+./test        contains the test code for GO network.
 
-./lib         contains library for blas and support library for memory management and control on 4 core groups.
+./lib         contains the library for blas and the support library for memory manageron 4 core groups.
+
+2016.11.14 : support for *float* and *double* data formats
 
