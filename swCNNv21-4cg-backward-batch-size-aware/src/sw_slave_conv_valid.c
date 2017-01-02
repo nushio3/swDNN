@@ -3,8 +3,9 @@
 #include <unistd.h>
 #include <slave.h>
 #include <math.h>
-#include "def.h"
-#include <dma.h>
+#include "simd.h"
+#include "dma.h"
+#include "util.h"
 #include "gemm.h" 
 
 /***************
@@ -24,7 +25,9 @@
  *
  * ************/
 #define SIMDSIZE 4
-void convforward_p_simd_rc_c(ConvData* param)
+#define SIMDType doublev4
+
+void conv_valid(ConvData* param)
 {
   int cB, cNi, cRi, cCi, cKr, cKc, ccCore, crCore, cNo;
   int ii, jj, cRo, cCo;
@@ -99,12 +102,12 @@ void convforward_p_simd_rc_c(ConvData* param)
   dma(dma_get_weight, (long)(weight_ptr), (long)(local_weight + weight_calc_index*local_weight_size));
 
   Type* input_start = param->input+rid*B/8+cid*Ni/8*B;
-  Type* output_start = param->output + rid*B/8 + cid*No/8*B;
   dma_wait(&weight_replyget, 1); weight_replyget = 0;
 
   //DMA for 1st input
   dma(dma_get_input, (long)(input_start), (long)(local_input+input_calc_index*local_input_size));
   dma_wait(&input_replyget, 1); input_replyget = 0;
+
 
   for(CoStart=0; CoStart<Co; CoStart+=CStride){
     int CoEnd = CoStart+CStride;
@@ -117,7 +120,7 @@ void convforward_p_simd_rc_c(ConvData* param)
     //input init
     for(cRo=0; cRo<Ro; ++cRo){
 
-      Type* output_ptr =  output_start + B*No*(cRo*Co+CoStart);
+      Type* output_ptr = param->output + rid*B/8 + cid*No/8*B + B*No*(cRo*Co+CoStart);
      
 	  //init local_output
 	  for(i = 0; i<local_output_size/SIMDSIZE; ++i)

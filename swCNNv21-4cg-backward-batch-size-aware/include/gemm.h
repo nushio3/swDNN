@@ -7,7 +7,7 @@
 
 #ifndef _GEMM_H_
 #define _GEMM_H_
-#include "def.h"
+#include "util.h"
 
 void gemm(Type* input, Type* weight, Type* output, int M, int Mld, int N, int K, int rid, int cid);
 #endif
