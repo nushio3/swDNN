@@ -116,7 +116,7 @@ DMA_banchmark(ConvData* p){
   printf("Total Read Time:%0.9lfs, bandwidth is :%0.9lf GBps\n", tt, 
 		  ((B*Ni)*sizeof(Type)*20*STEPS)/tt/1000000000);
 }
-
+// call the sunway kernel
 #define pthread_step 100 
 int conv_forward_4cg(void* ptr){
 	int i;
